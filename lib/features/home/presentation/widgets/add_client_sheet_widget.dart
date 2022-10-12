@@ -10,7 +10,7 @@ class AddClientSheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        navigateTo(context, const CreateClientScreen());
+        navigateTo(context, CreateClientScreen());
       },
       child: Container(
         padding: const EdgeInsets.all(10),

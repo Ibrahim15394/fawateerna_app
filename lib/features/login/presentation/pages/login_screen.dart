@@ -3,7 +3,10 @@ import 'package:fawateerna_app/core/util/styles/colors.dart';
 import 'package:fawateerna_app/core/util/widgets/default_form_field.dart';
 import 'package:fawateerna_app/core/util/widgets/my_button.dart';
 import 'package:fawateerna_app/features/home/presentation/pages/home_screen.dart';
+import 'package:fawateerna_app/features/login/presentation/cubit/cubit.dart';
+import 'package:fawateerna_app/features/login/presentation/cubit/states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -14,12 +17,18 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
+    return  BlocProvider(
+        create: (BuildContext context) => LoginCubit(),
+        child: BlocConsumer<LoginCubit, LoginStates >(
+        listener: (context, state){},
+        builder: (context, state)
+        {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+            child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Center(
@@ -88,20 +97,19 @@ class LoginScreen extends StatelessWidget {
                           height: 5.0,
                         ),
                         DefaultFormField(
-                          isPassword: true,
-                          //LoginCubit.get(context).isPassword,
+                          isPassword: LoginCubit.get(context).isPassword,
                           controller: passwordController,
                           hintText: 'password',
                           hintColor: const Color(0xFFccd3d3),
                           fillColor: const Color(0xFFF5F5F5),
                           colorSide: const Color(0xFFF5F5F5),
-                          // suffixIcon: IconButton(
-                          //   icon : Icon(LoginCubit.get(context).suffix),
-                          //   onPressed: ()
-                          //   {
-                          //     LoginCubit.get(context).changePassword();
-                          //   },
-                          // ),
+                          suffixIcon: IconButton(
+                            icon : Icon(LoginCubit.get(context).suffix),
+                            onPressed: ()
+                            {
+                              LoginCubit.get(context).changePassword();
+                            },
+                          ),
                           radius: 13.0,
                           type: TextInputType.visiblePassword,
                           validate: 'please enter your password',
@@ -111,13 +119,13 @@ class LoginScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            // IconButton(
-                            //   onPressed: ()
-                            //   {
-                            //     LoginCubit.get(context).changeRemember();
-                            //   },
-                            //   icon: Icon(LoginCubit.get(context).remember),
-                            // ),
+                            IconButton(
+                              onPressed: ()
+                              {
+                                LoginCubit.get(context).changeRemember();
+                              },
+                              icon: Icon(LoginCubit.get(context).remember),
+                            ),
                             const Text(
                               'remember me',
                               style: TextStyle(
@@ -165,5 +173,9 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+        }
+        ),
+        );
+   }
   }
-}
+

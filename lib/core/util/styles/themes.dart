@@ -8,6 +8,7 @@ ThemeData lightTheme = ThemeData(
   ),
 
   scaffoldBackgroundColor: Colors.white,
+  primaryColor:defaultColor,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: defaultColor,
   ),

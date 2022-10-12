@@ -1,56 +1,105 @@
 import 'package:fawateerna_app/core/util/cubit/states.dart';
+import 'package:fawateerna_app/data/models/client_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' ;
+import '../constance.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
 
-  static AppCubit get(context) => BlocProvider.of(context);
+  static AppCubit get(context) => BlocProvider.of<AppCubit>(context);
 
-  late Database database;
+  static late Database database;
 
-  void createDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = p.join(databasesPath, 'tasks.db');
 
-    emit(AppDatabaseCreated());
-    print('AppDatabaseCreated');
-    openAppDatabase(
-             path: path,
-          );
-  }
-  void openAppDatabase({
-    required String path,
-  }) {
-    openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version)
-    {
-      db.execute('CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT ,date TEXT, start TEXT, end TEXT, remind INTEGER, repeat TEXT, color TEXT)',).
-      then((value) {
-        emit(AppDatabaseCreatedTable());
-        print('CreatedTable');
-      }).catchError((error){
-        print('error ${error.toString()}');
-      });
-    },
-      onOpen: (Database db){
-        database = db;
-        emit(AppDatabaseOpened());
-        print('DatabaseOpened');
-      },
-    );
-  }
-  void insertToDatabase(){
-     database.transaction((txn)async {
-      txn.rawInsert(
-          'INSERT INTO tasks(title, date, start, end, remind, repeat, color) VALUES("")');
-  }).then((value) {
-    print('insert');
-     }).catchError((error){
-       print('error ${error.toString()}');
-     });
-  }
+  // Future<Database> getDatabase() async {
+  //   if (database != null) {
+  //     return await database;
+  //   }
+  //   database = await initDatabase();
+  //   return await database;
+  // }
+
+  // initDatabase() async {
+  //   String path = join(await getDatabasesPath(), 'ClientData.db');
+  //
+  //   return await openDatabase(
+  //       path,
+  //       version: 1,
+  //       onCreate: (Database db, int version) async {
+  //         await db.execute('''
+  //       CREATE TABLE $tableClient(
+  //       $columnId INTEGER PRIMARY KEY ,
+  //       $columnName TEXT ,
+  //       $columnPhone TEXT ,
+  //       $columnEmail TEXT)
+  //       ''');
+  //       }).then((value) {
+  //         print('createTable');
+  //         emit(AppDatabaseCreated());
+  //   });
+  // }
+  //
+  // Future<ClientModel> insertClient(ClientModel client) async {
+  //
+  //   var dbClient = await database;
+  //   await dbClient.insert(
+  //     tableClient,
+  //     client.toJson(),
+  //     conflictAlgorithm: ConflictAlgorithm.replace,
+  //   ).then((value) {
+  //     print('done insert');
+  //     emit(AppDatabaseCreatedTable());
+  //   });
+  //   return client;
+  // }
+  //
+  // updateClient(ClientModel client)async{
+  //   var dbClient = await database;
+  //   await dbClient.update(
+  //     tableClient,
+  //     client.toJson(),
+  //     where: '$columnId = ?',
+  //     whereArgs: [client.id],
+  //   );
+  // }
+  //
+  // List<Map> client = [];
+  //
+  // Future<ClientModel?> getClient(int id) async{
+  //   var dbClient = await database;
+  //   client = [];
+  //   List<Map> maps = await dbClient.query(
+  //     tableClient,
+  //     where: '$columnId = ?',
+  //     whereArgs: [id],
+  //   );
+  //   if(maps.isNotEmpty) {
+  //     return ClientModel.fromJson(maps.first);
+  //   }else{
+  //     return null;
+  //   }
+  // }
+  //
+  // Future<List<ClientModel>>getAllClient()async{
+  //   var dbClient = await  database;
+  //   List<Map> maps = await dbClient.query(tableClient);
+  //
+  //   return maps.isNotEmpty
+  //       ? maps.map((client) => ClientModel.fromJson(client)).toList()
+  //       : [];
+  // }
+  //
+  // Future<void> deleteClient(int id) async{
+  //
+  //   var dbClient = await database;
+  //   dbClient.delete(
+  //     tableClient,
+  //     where: '$columnId = ?',
+  //     whereArgs: [id],
+  //   );
+  //
+  // }
+
 }

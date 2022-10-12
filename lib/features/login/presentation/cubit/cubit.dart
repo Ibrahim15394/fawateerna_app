@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class AppCubit extends Cubit<LoginStates> {
-  AppCubit() : super(LoginInitialStates());
+class LoginCubit extends Cubit<LoginStates> {
+  LoginCubit() : super(LoginInitialStates());
 
-  static AppCubit get(context) => BlocProvider.of(context);
+  static LoginCubit get(context) => BlocProvider.of(context);
+
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = true;
 

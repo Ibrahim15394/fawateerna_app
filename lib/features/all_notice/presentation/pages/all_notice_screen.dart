@@ -3,8 +3,7 @@ import 'package:fawateerna_app/features/all_notice/presentation/widgets/build_it
 import 'package:flutter/material.dart';
 
 import '../../../../core/util/functions/navigate_and_finish.dart';
-import '../../../billing/presentation/widgets/icon_total_widget.dart';
-import '../../../billing/presentation/widgets/name_number_widget.dart';
+
 import '../../../home/presentation/pages/home_screen.dart';
 
 class AllNoticeScreen extends StatelessWidget {
